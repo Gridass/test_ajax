@@ -16,5 +16,5 @@ Route::get('/', function () {
 });
 Route::get('my-form','HomeController@myform');
 Route::post('my-form','HomeController@myformPost');
-Auth::routes();
+
 

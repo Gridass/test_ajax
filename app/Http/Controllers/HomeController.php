@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
-
+use App\User;
 
 class HomeController extends Controller
 {
@@ -35,6 +35,7 @@ class HomeController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
+            'password' => 'required|max:60|same:password',
             'email' => 'required|email',
             'address' => 'required',
         ]);
@@ -49,4 +50,7 @@ class HomeController extends Controller
 
         return response()->json(['error'=>$validator->errors()->all()]);
     }
+
+
+
 }

@@ -72,7 +72,7 @@
 
 
     <div class="container">
-        <h2>Laravel Ajax Validation</h2>
+        <h2>Laravel Ajax</h2>
 
 
         <div class="alert alert-danger print-error-msg" style="display:none">
@@ -80,7 +80,8 @@
         </div>
 
 
-        <form>
+        <form method="post" id="ajax_form" >
+
             {{ csrf_field() }}
             <div class="form-group">
                 <label>First Name:</label>
@@ -97,6 +98,11 @@
             <div class="form-group">
                 <strong>Email:</strong>
                 <input type="text" name="email" class="form-control" placeholder="Email">
+            </div>
+
+            <div class="form-group">
+                <strong>Password:</strong>
+                <input type="text" name="password" class="form-control" placeholder="password">
             </div>
 
 
@@ -125,13 +131,14 @@
                 var first_name = $("input[name='first_name']").val();
                 var last_name = $("input[name='last_name']").val();
                 var email = $("input[name='email']").val();
+                var password = $("input[name='password']").val();
                 var address = $("textarea[name='address']").val();
 
 
                 $.ajax({
                     url: "/my-form",
                     type:'POST',
-                    data: {_token:_token, first_name:first_name, last_name:last_name, email:email, address:address},
+                    data: {_token:_token, first_name:first_name, last_name:last_name, email:email, password:password, address:address},
                     success: function(data) {
                         if($.isEmptyObject(data.error)){
                             alert(data.success);
@@ -139,6 +146,22 @@
                             printErrorMsg(data.error);
                         }
                     }
+                });
+                $("button").click(function(e){
+
+                    e.preventDefault();
+
+                    var formData = $("form").serialize();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "insertClientNew.php",
+                        data: formData,
+                        success: function(data) {
+                            $("#insclient").html(data);
+                        }
+                    });
+
                 });
 
 
@@ -156,7 +179,6 @@
 
 
     </script>
-
 
     </body>
 </html>
